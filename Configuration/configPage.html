@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Still Watching Configuration</title>
+</head>
+<body>
+    <div data-role="page" class="type-interior pluginConfigurationPage stillWatchingConfigurationPage" data-require="emby-input,emby-button,emby-checkbox">
+        <div data-role="content">
+            <div class="content-primary">
+                <h1>Still Watching</h1>
+                <form class="stillWatchingConfigurationForm">
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="inactivityThresholdSeconds">Inactivity Timeout (seconds)</label>
+                        <input is="emby-input" type="number" id="inactivityThresholdSeconds" name="inactivityThresholdSeconds" required />
+                        <div class="fieldDescription">Time in seconds before playback pauses automatically (e.g., 7200 for 2 hours).</div>
+                    </div>
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label>
+                            <input is="emby-checkbox" type="checkbox" id="enableMessageDisplay" name="enableMessageDisplay" />
+                            <span>Show "Still Watching?" Message</span>
+                        </label>
+                        <span class="fieldDescription">Display a popup message on the client when pausing.</span>
+                    </div>
+                    <div>
+                        <button is="emby-button" type="submit" class="raised button-submit block">
+                            <span>Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var StillWatchingPlugin = {
+                pluginId: '96C89874-5555-46B4-8A8E-2B0387532050'
+            };
+
+            $('.stillWatchingConfigurationPage').on('pageshow', function () {
+                Dashboard.showLoadingMsg();
+                var page = this;
+
+                ApiClient.getPluginConfiguration(StillWatchingPlugin.pluginId).then(function (config) {
+                    $('#inactivityThresholdSeconds', page).val(config.InactivityThresholdSeconds);
+                    $('#enableMessageDisplay', page).prop('checked', config.EnableMessageDisplay);
+                    Dashboard.hideLoadingMsg();
+                });
+            });
+
+            $('.stillWatchingConfigurationForm').on('submit', function () {
+                Dashboard.showLoadingMsg();
+                var page = this;
+
+                ApiClient.getPluginConfiguration(StillWatchingPlugin.pluginId).then(function (config) {
+                    config.InactivityThresholdSeconds = parseInt($('#inactivityThresholdSeconds', page).val());
+                    config.EnableMessageDisplay = $('#enableMessageDisplay', page).prop('checked');
+                    
+                    ApiClient.updatePluginConfiguration(StillWatchingPlugin.pluginId, config).then(function (result) {
+                        Dashboard.processPluginConfigurationUpdateResult(result);
+                    });
+                });
+                return false;
+            });
+        </script>
+    </div>
+</body>
+</html>
