@@ -8,11 +8,11 @@
         "category": "General",
         "versions": [
             {
-                "version": "1.0.0.1",
-                "changelog": "Fix nullable warning and initialization",
+                "version": "1.0.0.2",
+                "changelog": "Clean build (excluded Jellyfin core DLLs)",
                 "targetAbi": "10.9.11.0",
                 "sourceUrl": "https://raw.githubusercontent.com/Gudaites/Jellyfin.Plugin.StillWatching/master/StillWatching.zip",
-                "checksum": "a4b6e19db17297a5c880f5827429d250",
+                "checksum": "fa55bf91152825d1cb0d1dabe6336d40",
                 "timestamp": "2026-01-09T00:00:00Z"
             }
         ]
