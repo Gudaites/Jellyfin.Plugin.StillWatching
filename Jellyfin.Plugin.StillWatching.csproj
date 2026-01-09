@@ -10,6 +10,7 @@
     <AssemblyTitle>Jellyfin.Plugin.StillWatching</AssemblyTitle>
     <Description>Pauses playback after a set period of inactivity.</Description>
     <PackageId>Jellyfin.Plugin.StillWatching</PackageId>
+    <RootNamespace>Jellyfin.Plugin.StillWatching</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

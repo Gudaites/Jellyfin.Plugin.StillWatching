@@ -8,11 +8,11 @@
         "category": "General",
         "versions": [
             {
-                "version": "1.0.0.2",
-                "changelog": "Clean build (excluded Jellyfin core DLLs)",
-                "targetAbi": "10.9.11.0",
+                "version": "1.0.0.3",
+                "changelog": "Fix targetAbi for 10.11.5 server and add startup log",
+                "targetAbi": "10.11.5.0",
                 "sourceUrl": "https://raw.githubusercontent.com/Gudaites/Jellyfin.Plugin.StillWatching/master/StillWatching.zip",
-                "checksum": "fa55bf91152825d1cb0d1dabe6336d40",
+                "checksum": "81c4787d12732ef463428920270d53a9",
                 "timestamp": "2026-01-09T00:00:00Z"
             }
         ]

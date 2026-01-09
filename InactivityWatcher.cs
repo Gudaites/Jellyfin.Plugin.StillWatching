@@ -37,6 +37,7 @@ namespace Jellyfin.Plugin.StillWatching
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
+            _logger.LogInformation("Still Watching Plugin Started");
             _sessionManager.PlaybackStart += OnPlaybackStart;
             _sessionManager.PlaybackStopped += OnPlaybackStopped;
             _sessionManager.PlaybackProgress += OnPlaybackProgress;
