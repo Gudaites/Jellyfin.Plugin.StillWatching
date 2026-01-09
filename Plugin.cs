@@ -23,7 +23,7 @@ namespace Jellyfin.Plugin.StillWatching
             Instance = this;
         }
 
-        public static Plugin Instance { get; private set; } = null!;
+        public static Plugin Instance { get; private set; }
 
         public IEnumerable<PluginPageInfo> GetPages()
         {
