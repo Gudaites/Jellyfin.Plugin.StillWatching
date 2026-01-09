@@ -12,7 +12,7 @@
                 "changelog": "Fix nullable warning and initialization",
                 "targetAbi": "10.9.11.0",
                 "sourceUrl": "https://raw.githubusercontent.com/Gudaites/Jellyfin.Plugin.StillWatching/master/StillWatching.zip",
-                "checksum": "5f2c3f6f2f6c5fd97df4024a1c8863a3eb0d6b256dc8e592e97caa2e0d17e36e",
+                "checksum": "a4b6e19db17297a5c880f5827429d250",
                 "timestamp": "2026-01-09T00:00:00Z"
             }
         ]
