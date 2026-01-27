@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Jellyfin.Data.Enums;
 using Jellyfin.Plugin.StillWatching.Configuration;
 using MediaBrowser.Controller.Library;
 using MediaBrowser.Controller.Session;
@@ -161,16 +163,22 @@ namespace Jellyfin.Plugin.StillWatching
 
                 if (config.EnableMessageDisplay)
                 {
-                    _logger.LogInformation("StillWatching: Sending message to session {SessionId}", session.Id);
+                    _logger.LogInformation("StillWatching: Sending DisplayMessage general command to session {SessionId}", session.Id);
                     
-                    await _sessionManager.SendMessageCommand(session.Id, session.Id, new MessageCommand
+                    // Try using GeneralCommand DisplayMessage instead of MessageCommand
+                    var command = new GeneralCommand
                     {
-                        Header = "Still Watching?",
-                        Text = "Paused due to inactivity. Press Play to continue.",
-                        TimeoutMs = 15000 
-                    }, CancellationToken.None);
+                        Name = GeneralCommandType.DisplayMessage
+                    };
                     
-                    _logger.LogInformation("StillWatching: Message sent successfully");
+                    await _sessionManager.SendGeneralCommand(
+                        session.Id,
+                        session.Id,
+                        command,
+                        CancellationToken.None
+                    );
+                    
+                    _logger.LogInformation("StillWatching: DisplayMessage command sent successfully");
                 }
                 else
                 {
