@@ -8,11 +8,11 @@
         "category": "General",
         "versions": [
             {
-                "version": "1.0.5.0",
-                "changelog": "Reverted to SendMessageCommand with 2-hour default timeout and jQuery config page",
+                "version": "1.0.6.0",
+                "changelog": "Fixed configuration page - removed custom elements blocking input",
                 "targetAbi": "10.11.0.0",
                 "sourceUrl": "https://raw.githubusercontent.com/Gudaites/Jellyfin.Plugin.StillWatching/main/StillWatching.zip",
-                "checksum": "cc7253faa8700ae60785373e4eae8105",
+                "checksum": "32f50e7c544c0454aec8adbd5abe178a",
                 "timestamp": "2026-01-27T00:00:00Z"
             }
         ]
