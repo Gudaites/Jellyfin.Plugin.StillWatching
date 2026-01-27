@@ -31,6 +31,15 @@ namespace Jellyfin.Plugin.StillWatching
             _sessionManager = sessionManager;
             _loggerFactory = loggerFactory;
             
+            // Ensure configuration has default values
+            var logger = loggerFactory.CreateLogger<Plugin>();
+            logger.LogInformation("Still Watching Plugin initializing...");
+            logger.LogInformation("Configuration - InactivityThresholdSeconds: {Threshold}", Configuration.InactivityThresholdSeconds);
+            logger.LogInformation("Configuration - EnableMessageDisplay: {Enable}", Configuration.EnableMessageDisplay);
+            
+            // Save configuration to ensure XML file exists
+            SaveConfiguration();
+            
             // Initialize the watcher
             _watcher = new InactivityWatcher(
                 _sessionManager, 

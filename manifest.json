@@ -8,11 +8,11 @@
         "category": "General",
         "versions": [
             {
-                "version": "1.0.6.0",
-                "changelog": "Fixed configuration page - removed custom elements blocking input",
+                "version": "1.0.7.0",
+                "changelog": "Added extensive logging and fallback defaults for config page",
                 "targetAbi": "10.11.0.0",
                 "sourceUrl": "https://raw.githubusercontent.com/Gudaites/Jellyfin.Plugin.StillWatching/main/StillWatching.zip",
-                "checksum": "32f50e7c544c0454aec8adbd5abe178a",
+                "checksum": "0f1349c94fc6f984ddafb9f1e73c27ba",
                 "timestamp": "2026-01-27T00:00:00Z"
             }
         ]

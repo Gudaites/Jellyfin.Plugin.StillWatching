@@ -37,53 +37,85 @@
             pluginId: '96C89874-5555-46B4-8A8E-2B0387532050',
             
             loadConfiguration: function() {
-                console.log('Loading Still Watching configuration...');
+                console.log('[StillWatching] Loading configuration...');
                 Dashboard.showLoadingMsg();
                 
                 ApiClient.getPluginConfiguration(StillWatchingPlugin.pluginId).then(function(config) {
-                    console.log('Configuration loaded:', config);
+                    console.log('[StillWatching] Configuration loaded:', config);
+                    console.log('[StillWatching] InactivityThresholdSeconds:', config.InactivityThresholdSeconds);
+                    console.log('[StillWatching] EnableMessageDisplay:', config.EnableMessageDisplay);
                     
                     const timeoutInput = document.getElementById('inactivityThresholdSeconds');
                     const messageCheckbox = document.getElementById('enableMessageDisplay');
                     
                     if (timeoutInput) {
-                        timeoutInput.value = config.InactivityThresholdSeconds || 7200;
-                        console.log('Set timeout to:', timeoutInput.value);
+                        // Force default value if not set
+                        const timeoutValue = config.InactivityThresholdSeconds || 7200;
+                        timeoutInput.value = timeoutValue;
+                        console.log('[StillWatching] Set timeout input to:', timeoutValue);
+                    } else {
+                        console.error('[StillWatching] Timeout input not found!');
                     }
+                    
                     if (messageCheckbox) {
-                        messageCheckbox.checked = config.EnableMessageDisplay !== false;
-                        console.log('Set message display to:', messageCheckbox.checked);
+                        // Default to true if not explicitly set to false
+                        const messageValue = config.EnableMessageDisplay !== false;
+                        messageCheckbox.checked = messageValue;
+                        console.log('[StillWatching] Set message checkbox to:', messageValue);
+                    } else {
+                        console.error('[StillWatching] Message checkbox not found!');
                     }
                     
                     Dashboard.hideLoadingMsg();
                 }).catch(function(error) {
-                    console.error('Error loading configuration:', error);
+                    console.error('[StillWatching] Error loading configuration:', error);
+                    
+                    // Set defaults even if loading fails
+                    const timeoutInput = document.getElementById('inactivityThresholdSeconds');
+                    const messageCheckbox = document.getElementById('enableMessageDisplay');
+                    
+                    if (timeoutInput) {
+                        timeoutInput.value = 7200;
+                        console.log('[StillWatching] Set default timeout: 7200');
+                    }
+                    if (messageCheckbox) {
+                        messageCheckbox.checked = true;
+                        console.log('[StillWatching] Set default message: true');
+                    }
+                    
                     Dashboard.hideLoadingMsg();
                 });
             },
             
             saveConfiguration: function(e) {
                 e.preventDefault();
-                console.log('Saving Still Watching configuration...');
+                console.log('[StillWatching] Saving configuration...');
                 Dashboard.showLoadingMsg();
                 
                 const timeoutInput = document.getElementById('inactivityThresholdSeconds');
                 const messageCheckbox = document.getElementById('enableMessageDisplay');
                 
+                const newTimeout = parseInt(timeoutInput.value) || 7200;
+                const newMessage = messageCheckbox.checked;
+                
+                console.log('[StillWatching] New timeout:', newTimeout);
+                console.log('[StillWatching] New message:', newMessage);
+                
                 ApiClient.getPluginConfiguration(StillWatchingPlugin.pluginId).then(function(config) {
-                    config.InactivityThresholdSeconds = parseInt(timeoutInput.value) || 7200;
-                    config.EnableMessageDisplay = messageCheckbox.checked;
+                    config.InactivityThresholdSeconds = newTimeout;
+                    config.EnableMessageDisplay = newMessage;
                     
-                    console.log('Saving config:', config);
+                    console.log('[StillWatching] Saving config:', config);
                     
                     ApiClient.updatePluginConfiguration(StillWatchingPlugin.pluginId, config).then(function(result) {
+                        console.log('[StillWatching] Configuration saved successfully');
                         Dashboard.processPluginConfigurationUpdateResult(result);
                     }).catch(function(error) {
-                        console.error('Error saving configuration:', error);
+                        console.error('[StillWatching] Error saving configuration:', error);
                         Dashboard.hideLoadingMsg();
                     });
                 }).catch(function(error) {
-                    console.error('Error getting configuration:', error);
+                    console.error('[StillWatching] Error getting configuration:', error);
                     Dashboard.hideLoadingMsg();
                 });
                 
@@ -95,16 +127,21 @@
         document.addEventListener('viewshow', function(e) {
             const page = document.getElementById('stillWatchingConfigurationPage');
             if (page && page.classList.contains('is-active')) {
-                console.log('Page is active, loading configuration');
+                console.log('[StillWatching] Page is active, loading configuration');
                 StillWatchingPlugin.loadConfiguration();
             }
         });
         
-        // Attach form submit handler
-        const form = document.getElementById('stillWatchingConfigurationForm');
-        if (form) {
-            form.addEventListener('submit', StillWatchingPlugin.saveConfiguration);
-        }
+        // Attach form submit handler when DOM is ready
+        setTimeout(function() {
+            const form = document.getElementById('stillWatchingConfigurationForm');
+            if (form) {
+                console.log('[StillWatching] Attaching form submit handler');
+                form.addEventListener('submit', StillWatchingPlugin.saveConfiguration);
+            } else {
+                console.error('[StillWatching] Form not found!');
+            }
+        }, 100);
     </script>
 </body>
 </html>
