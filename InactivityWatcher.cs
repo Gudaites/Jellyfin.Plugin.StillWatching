@@ -7,12 +7,11 @@ using Jellyfin.Plugin.StillWatching.Configuration;
 using MediaBrowser.Controller.Library;
 using MediaBrowser.Controller.Session;
 using MediaBrowser.Model.Session;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Jellyfin.Plugin.StillWatching
 {
-    public class InactivityWatcher : IHostedService, IDisposable
+    public class InactivityWatcher : IDisposable
     {
         private readonly ISessionManager _sessionManager;
         private readonly ILogger<InactivityWatcher> _logger;
@@ -31,9 +30,11 @@ namespace Jellyfin.Plugin.StillWatching
         {
             _sessionManager = sessionManager;
             _logger = logger;
+            
+            Start();
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        public void Start()
         {
             _logger.LogInformation("Still Watching Plugin Started");
             _sessionManager.PlaybackStart += OnPlaybackStart;
@@ -42,16 +43,6 @@ namespace Jellyfin.Plugin.StillWatching
             
             // Check every 10 seconds
             _timer = new Timer(CheckInactivity, null, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(10));
-            return Task.CompletedTask;
-        }
-
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            _sessionManager.PlaybackStart -= OnPlaybackStart;
-            _sessionManager.PlaybackStopped -= OnPlaybackStopped;
-            _sessionManager.PlaybackProgress -= OnPlaybackProgress;
-            _timer?.Change(Timeout.Infinite, 0);
-            return Task.CompletedTask;
         }
 
         private void OnPlaybackStopped(object? sender, PlaybackStopEventArgs e)
