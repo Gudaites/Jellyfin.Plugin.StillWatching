@@ -9,7 +9,7 @@ namespace Jellyfin.Plugin.StillWatching.Configuration
 
         public PluginConfiguration()
         {
-            InactivityThresholdSeconds = 60; // Default 1 minute for testing
+            InactivityThresholdSeconds = 7200; // Default 2 hours (7200 seconds)
             EnableMessageDisplay = true;
         }
     }

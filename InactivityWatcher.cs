@@ -163,22 +163,21 @@ namespace Jellyfin.Plugin.StillWatching
 
                 if (config.EnableMessageDisplay)
                 {
-                    _logger.LogInformation("StillWatching: Sending DisplayMessage general command to session {SessionId}", session.Id);
+                    _logger.LogInformation("StillWatching: Sending message to session {SessionId}", session.Id);
                     
-                    // Try using GeneralCommand DisplayMessage instead of MessageCommand
-                    var command = new GeneralCommand
-                    {
-                        Name = GeneralCommandType.DisplayMessage
-                    };
-                    
-                    await _sessionManager.SendGeneralCommand(
+                    await _sessionManager.SendMessageCommand(
                         session.Id,
                         session.Id,
-                        command,
+                        new MessageCommand
+                        {
+                            Header = "Still Watching?",
+                            Text = "Playback paused due to inactivity. Press play to continue.",
+                            TimeoutMs = 10000
+                        },
                         CancellationToken.None
                     );
                     
-                    _logger.LogInformation("StillWatching: DisplayMessage command sent successfully");
+                    _logger.LogInformation("StillWatching: Message sent successfully");
                 }
                 else
                 {

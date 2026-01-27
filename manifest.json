@@ -8,11 +8,11 @@
         "category": "General",
         "versions": [
             {
-                "version": "1.0.4.0",
-                "changelog": "Using DisplayMessage GeneralCommand for better TV support",
+                "version": "1.0.5.0",
+                "changelog": "Reverted to SendMessageCommand with 2-hour default timeout and jQuery config page",
                 "targetAbi": "10.11.0.0",
                 "sourceUrl": "https://raw.githubusercontent.com/Gudaites/Jellyfin.Plugin.StillWatching/main/StillWatching.zip",
-                "checksum": "805ac55987f0d9a1bdc0812eac88ec2b",
+                "checksum": "cc7253faa8700ae60785373e4eae8105",
                 "timestamp": "2026-01-27T00:00:00Z"
             }
         ]
