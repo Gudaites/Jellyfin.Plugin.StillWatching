@@ -1,17 +1,14 @@
 using System;
 using System.Collections.Generic;
-using MediaBrowser.Controller.Plugins;
-using MediaBrowser.Controller;
 using Jellyfin.Plugin.StillWatching.Configuration;
 using MediaBrowser.Common.Configuration;
 using MediaBrowser.Common.Plugins;
-using MediaBrowser.Model.Serialization;
 using MediaBrowser.Model.Plugins;
-using Microsoft.Extensions.DependencyInjection;
+using MediaBrowser.Model.Serialization;
 
 namespace Jellyfin.Plugin.StillWatching
 {
-    public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages, IPluginServiceRegistrator
+    public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     {
         public override string Name => "Still Watching";
 
@@ -23,7 +20,7 @@ namespace Jellyfin.Plugin.StillWatching
             Instance = this;
         }
 
-        public static Plugin Instance { get; private set; }
+        public static Plugin? Instance { get; private set; }
 
         public IEnumerable<PluginPageInfo> GetPages()
         {
@@ -35,10 +32,6 @@ namespace Jellyfin.Plugin.StillWatching
                     EmbeddedResourcePath = GetType().Namespace + ".Configuration.configPage.html"
                 }
             };
-        }
-        public void RegisterServices(IServiceCollection services, IServerApplicationHost applicationHost)
-        {
-            services.AddHostedService<InactivityWatcher>();
         }
     }
 }

@@ -5,12 +5,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Jellyfin.Plugin.StillWatching.Configuration;
 using MediaBrowser.Controller.Library;
-using MediaBrowser.Controller.Plugins;
 using MediaBrowser.Controller.Session;
-using MediaBrowser.Model.Entities;
 using MediaBrowser.Model.Session;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Jellyfin.Plugin.StillWatching
 {

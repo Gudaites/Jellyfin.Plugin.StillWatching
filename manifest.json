@@ -8,12 +8,12 @@
         "category": "General",
         "versions": [
             {
-                "version": "1.0.0.4",
-                "changelog": "Rebuilt with Jellyfin 10.10.x dependencies",
-                "targetAbi": "10.11.5.0",
+                "version": "1.0.1.0",
+                "changelog": "Fixed compatibility with Jellyfin 10.11.x (2026)",
+                "targetAbi": "10.11.0.0",
                 "sourceUrl": "https://raw.githubusercontent.com/Gudaites/Jellyfin.Plugin.StillWatching/master/StillWatching.zip",
-                "checksum": "583161ff321c55a282cd83dbf1e7dcc2",
-                "timestamp": "2026-01-09T00:00:00Z"
+                "checksum": "2781ade1a77a6a359b30d726dfb20c97",
+                "timestamp": "2026-01-27T00:00:00Z"
             }
         ]
     }
