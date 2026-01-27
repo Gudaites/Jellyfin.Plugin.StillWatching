@@ -11,7 +11,7 @@
                 "version": "1.0.1.0",
                 "changelog": "Fixed compatibility with Jellyfin 10.11.x (2026)",
                 "targetAbi": "10.11.0.0",
-                "sourceUrl": "https://raw.githubusercontent.com/Gudaites/Jellyfin.Plugin.StillWatching/master/StillWatching.zip",
+                "sourceUrl": "https://raw.githubusercontent.com/Gudaites/Jellyfin.Plugin.StillWatching/main/StillWatching.zip",
                 "checksum": "2781ade1a77a6a359b30d726dfb20c97",
                 "timestamp": "2026-01-27T00:00:00Z"
             }
