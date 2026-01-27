@@ -40,8 +40,16 @@
                 Dashboard.showLoadingMsg();
                 
                 ApiClient.getPluginConfiguration(StillWatchingPlugin.pluginId).then(function(config) {
-                    document.getElementById('inactivityThresholdSeconds').value = config.InactivityThresholdSeconds || 60;
-                    document.getElementById('enableMessageDisplay').checked = config.EnableMessageDisplay || false;
+                    const timeoutInput = document.getElementById('inactivityThresholdSeconds');
+                    const messageCheckbox = document.getElementById('enableMessageDisplay');
+                    
+                    if (timeoutInput) {
+                        timeoutInput.value = config.InactivityThresholdSeconds || 60;
+                    }
+                    if (messageCheckbox) {
+                        messageCheckbox.checked = config.EnableMessageDisplay === true;
+                    }
+                    
                     Dashboard.hideLoadingMsg();
                 }).catch(function(error) {
                     console.error('Error loading configuration:', error);
@@ -50,12 +58,15 @@
             },
             
             saveConfiguration: function(e) {
-                e.preventDefault();
+                if (e) e.preventDefault();
                 Dashboard.showLoadingMsg();
                 
+                const timeoutInput = document.getElementById('inactivityThresholdSeconds');
+                const messageCheckbox = document.getElementById('enableMessageDisplay');
+                
                 ApiClient.getPluginConfiguration(StillWatchingPlugin.pluginId).then(function(config) {
-                    config.InactivityThresholdSeconds = parseInt(document.getElementById('inactivityThresholdSeconds').value) || 60;
-                    config.EnableMessageDisplay = document.getElementById('enableMessageDisplay').checked;
+                    config.InactivityThresholdSeconds = parseInt(timeoutInput.value) || 60;
+                    config.EnableMessageDisplay = messageCheckbox.checked;
                     
                     ApiClient.updatePluginConfiguration(StillWatchingPlugin.pluginId, config).then(function(result) {
                         Dashboard.processPluginConfigurationUpdateResult(result);
@@ -72,14 +83,27 @@
             }
         };
 
-        document.addEventListener('viewshow', function() {
+        // Load configuration when page is shown
+        (function() {
             const page = document.getElementById('stillWatchingConfigurationPage');
-            if (page && page.classList.contains('is-active')) {
-                StillWatchingPlugin.loadConfiguration();
+            if (page) {
+                // Try multiple event listeners for compatibility
+                page.addEventListener('pageshow', StillWatchingPlugin.loadConfiguration);
+                document.addEventListener('viewshow', function() {
+                    if (page.classList.contains('is-active')) {
+                        StillWatchingPlugin.loadConfiguration();
+                    }
+                });
+                
+                // Also try loading immediately
+                setTimeout(StillWatchingPlugin.loadConfiguration, 100);
             }
-        });
-
-        document.getElementById('stillWatchingConfigurationForm').addEventListener('submit', StillWatchingPlugin.saveConfiguration);
+            
+            const form = document.getElementById('stillWatchingConfigurationForm');
+            if (form) {
+                form.addEventListener('submit', StillWatchingPlugin.saveConfiguration);
+            }
+        })();
     </script>
 </body>
 </html>

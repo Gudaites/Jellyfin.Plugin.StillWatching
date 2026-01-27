@@ -149,25 +149,37 @@ namespace Jellyfin.Plugin.StillWatching
         {
             try 
             {
+                _logger.LogInformation("StillWatching: Sending pause command to session {SessionId}", session.Id);
+                
                 await _sessionManager.SendPlaystateCommand(session.Id, session.Id, new PlaystateRequest
                 {
                     Command = PlaystateCommand.Pause,
                     ControllingUserId = session.UserId.ToString()
                 }, CancellationToken.None);
 
+                _logger.LogInformation("StillWatching: Pause command sent successfully");
+
                 if (config.EnableMessageDisplay)
                 {
+                    _logger.LogInformation("StillWatching: Sending message to session {SessionId}", session.Id);
+                    
                     await _sessionManager.SendMessageCommand(session.Id, session.Id, new MessageCommand
                     {
                         Header = "Still Watching?",
                         Text = "Paused due to inactivity. Press Play to continue.",
                         TimeoutMs = 15000 
                     }, CancellationToken.None);
+                    
+                    _logger.LogInformation("StillWatching: Message sent successfully");
+                }
+                else
+                {
+                    _logger.LogInformation("StillWatching: Message display is disabled in configuration");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error checking inactivity for session {Id}", session.Id);
+                _logger.LogError(ex, "Error performing inactivity actions for session {SessionId}", session.Id);
             }
         }
 
